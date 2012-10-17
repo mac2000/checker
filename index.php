@@ -3,8 +3,8 @@ require_once 'vendor/autoload.php';
 
 // Prepare app
 $app = new \Slim\Slim(array(
-    /*'templates.path' => 'templates',
-    'log.level' => 4,
+    'templates.path' => 'templates',
+    /*'log.level' => 4,
     'log.enabled' => true,
     'log.writer' => new \Slim\Extras\Log\DateTimeFileWriter(array(
         'path' => '../logs',
@@ -15,7 +15,7 @@ $app = new \Slim\Slim(array(
 // Prepare view
 \Slim\Extras\Views\Twig::$twigOptions = array(
     'charset' => 'utf-8',
-    'cache' => realpath('templates/cache'),
+    'cache' =>  'templates/cache',
     'auto_reload' => true,
     'strict_variables' => false,
     'autoescape' => true
