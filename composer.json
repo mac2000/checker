@@ -1,0 +1,20 @@
+{
+    "name": "mac/checker",
+    "description": "Checker application",
+    "keywords": ["slim","gearman"],
+    "homepage": "http://github.com/mac2000/checker",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Marchenko Alexandr",
+            "email": "marchenko.alexandr@gmail.com",
+            "homepage": "http://mac-blog.org.ua/"
+        }
+    ],
+    "require": {
+        "php": ">=5.3.0",
+        "slim/slim": "2.*",
+        "slim/extras": "2.*",
+        "twig/twig": "1.*"
+    }
+}
