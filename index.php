@@ -2,7 +2,7 @@
 require_once 'vendor/autoload.php';
 
 // Prepare app
-$app = new \Slim\Slim(array(
+$app = new \Mac\Slim(array(
     'templates.path' => 'templates',
     /*'log.level' => 4,
     'log.enabled' => true,
