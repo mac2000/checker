@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% block title %}Users{% endblock %}
+{% block content %}
+{% if users %}
+<table class="table">
+    <thead>
+        <th class="short">#</th>
+        <th>Username</th>
+        <th class="short"></th>
+    </thead>
+    <tbody>
+        {% for user in users %}
+        <tr>
+            <td class="short">{{ user.id }}</td>
+            <td>{{ user.username }}</td>
+            <td class="short">
+                <a href="#" class="btn btn-mini">Change password</a>
+                <a href="#" onclick="return confirm('Are you sure? This can not be reverted')" class="btn btn-danger btn-mini">Delete</a>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% else %}
+<div class="well" style="text-align:center">No users<br><a class="btn btn-primary" href="{{ urlFor('users_add') }}">Add one</a></div>
+{% endif %}
+{% endblock %}

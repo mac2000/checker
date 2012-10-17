@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<title>{% block title %}{% endblock %}</title>
+<meta charset="utf-8">
+<link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.1.1/css/bootstrap-combined.min.css" rel="stylesheet">
+<style>
+    body > .container-fluid {padding:20px;}
+    .navbar-inner {padding:0;border-radius:0;}
+    th.short, td.short {white-space:nowrap;width:10px;}
+</style>
+{% include "navbar.html" %}
+<div class="container-fluid">
+    {% include "flash.html" %}
+    {% block content %}{% endblock %}
+</div>
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
+<script src="//netdna.bootstrapcdn.com/twitter-bootstrap/2.1.1/js/bootstrap.min.js"></script>
+
