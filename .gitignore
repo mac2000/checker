@@ -1,4 +1,6 @@
 .sass-cache
 .idea
 config.php
+composer.lock
+vendor
 phpmyadmin
