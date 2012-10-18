@@ -64,6 +64,7 @@ $app->get('/', $requiredAuth, function () use ($app) {
 })->name('home');
 
 require_once 'routes/auth.php';
+require_once 'routes/keywords.php';
 require_once 'routes/users.php';
 
 // Run app

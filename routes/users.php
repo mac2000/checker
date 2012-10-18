@@ -5,7 +5,7 @@ $app->get('/users', $requiredAuth, function () use ($app) {
     ));
 })->name('users');
 
-$app->post('/users/add', $requiredAuth, function () use ($app) {
+$app->post('/users', $requiredAuth, function () use ($app) {
     $username = $app->request()->post('username');
     $password = $app->request()->post('password');
     $hash = md5(DBPASS . md5(DBPASS . $password));

@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% block title %}Keywords{% endblock %}
+{% block content %}
+<div class="well">
+    <form class="form-inline m0" action="{{ urlFor('keywords') }}" method="POST">
+        <input type="text" value="{{ keyword }}" name="keyword" placeholder="Keyword" class="input-xlarge" required>
+
+        <button type="submit" class="btn btn-primary">Add keyword</button>
+    </form>
+</div>
+{% if keywords %}
+<table class="table">
+    <thead>
+    <th class="short">#</th>
+    <th>Keyword</th>
+    <th class="short"></th>
+    </thead>
+    <tbody>
+    {% for keyword in keywords %}
+    <tr>
+        <td class="short">{{ keyword.id }}</td>
+        <td>{{ keyword.keyword }}</td>
+        <td class="short">
+            <a href="{{ home }}keywords/{{ keyword.id }}/delete" onclick="return confirm('Are you sure?\nALL DATA WILL BE DELETED!')" class="btn btn-danger btn-mini">Delete</a>
+        </td>
+    </tr>
+    {% endfor %}
+    </tbody>
+</table>
+{% else %}
+<div class="well" style="text-align:center">No keywords</div>
+{% endif %}
+{% endblock %}
