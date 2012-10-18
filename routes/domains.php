@@ -29,6 +29,7 @@ $app->post('/domains', $requiredAuth, function () use ($app) {
         $domain = R::dispense('domain');
         $domain->domain = $word;
         $id = R::store($domain);
+        //TODO: add job for domain here
         $app->flash('success', "$word created");
         $app->redirect($app->urlFor('domains'));
     }
