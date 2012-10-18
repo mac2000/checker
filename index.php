@@ -15,7 +15,6 @@ $requiredAuth = function (\Slim\Route $route) {
     }
 };
 
-
 // Prepare app
 $app = new \Mac\Slim(array(
     'templates.path' => 'templates',
@@ -41,6 +40,10 @@ $app->hook('slim.after.router', function() use($app) {
         'name' => $app->router()->getCurrentRoute()->getName()
     ));
 });
+
+\Slim\Route::setDefaultConditions(array(
+    'id' => '\d+'
+));
 
 // Prepare view
 \Slim\Extras\Views\Twig::$twigOptions = array(
