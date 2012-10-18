@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+{% block title %}Proxies{% endblock %}
+{% block content %}
+<div class="well">
+    <form class="form-inline m0" action="{{ urlFor('proxies') }}" method="POST">
+        <input type="text" value="{{ username }}" name="username" placeholder="Username" required>
+        :
+        <input type="text" value="{{ password }}" name="password" placeholder="Password" required>
+        @
+        <input type="url" value="{{ url }}" name="url" placeholder="http://example.com" class="input-xlarge" required>
+        :
+        <input type="number" value="{{ port }}" name="port" placeholder="Port" required>
+        <button type="submit" class="btn btn-primary">Add proxy</button>
+    </form>
+</div>
+{% if proxies %}
+<table class="table">
+    <thead>
+    <th class="short">#</th>
+    <th>Username</th>
+    <th>Password</th>
+    <th>Host</th>
+    <th>Port</th>
+    <th class="short"></th>
+    </thead>
+    <tbody>
+    {% for proxy in proxies %}
+    <tr>
+        <td class="short">{{ proxy.id }}</td>
+        <td>{{ proxy.username }}</td>
+        <td>{{ proxy.password }}</td>
+        <td>{{ proxy.host }}</td>
+        <td>{{ proxy.port }}</td>
+        <td class="short">
+            <a href="{{ home }}proxies/{{ proxy.id }}/delete" onclick="return confirm('Are you sure?')" class="btn btn-danger btn-mini">Delete</a>
+        </td>
+    </tr>
+    {% endfor %}
+    </tbody>
+</table>
+{% else %}
+<div class="well" style="text-align:center">No proxies</div>
+{% endif %}
+{% endblock %}

@@ -3,7 +3,7 @@
 {% block content %}
 <div class="well">
     <form class="form-inline m0" action="{{ urlFor('domains') }}" method="POST">
-        <input type="url" value="{{ domain }}" name="domain" placeholder="http://example.com" class="input-xlarge" required>
+        <input type="url" value="{{ url }}" name="url" placeholder="http://example.com" class="input-xlarge" required>
 
         <button type="submit" class="btn btn-primary">Add domain</button>
     </form>

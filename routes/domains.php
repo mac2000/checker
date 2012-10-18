@@ -6,31 +6,31 @@ $app->get('/domains', $requiredAuth, function () use ($app) {
 })->name('domains');
 
 $app->post('/domains', $requiredAuth, function () use ($app) {
-    $word = $app->request()->post('domain');
+    $url = $app->request()->post('url');
+    $host = parse_url($url, PHP_URL_HOST);
 
-    $domain = R::findOne('domain', 'domain=:domain', array(':domain' => $word));
+    $domain = R::findOne('domain', 'domain=:domain', array(':domain' => $host));
 
-    if(empty($word)) {
+    if(empty($host)) {
         $app->flashNow('error', 'Fields are required');
         $app->render('domains.html', array(
-            'domain' => $word,
+            'domain' => $url,
             'domains' =>  R::findAll('domain', ' ORDER BY domain')
         ));
     }
     else if($domain) {
         $app->flashNow('error', 'domain already exists');
         $app->render('domains.html', array(
-            'domain' => $word,
+            'domain' => $url,
             'domains' =>  R::findAll('domain', ' ORDER BY domain')
         ));
     }
     else {
-        $word = parse_URL($word, PHP_URL_HOST);
         $domain = R::dispense('domain');
-        $domain->domain = $word;
+        $domain->domain = $host;
         $id = R::store($domain);
         //TODO: add job for domain here
-        $app->flash('success', "$word created");
+        $app->flash('success', "$host created");
         $app->redirect($app->urlFor('domains'));
     }
 });
