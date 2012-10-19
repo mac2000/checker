@@ -7,6 +7,8 @@ $app->get('/keywords', $requiredAuth, function () use ($app) {
 
 $app->post('/keywords', $requiredAuth, function () use ($app) {
     $word = $app->request()->post('keyword');
+    $lr = $app->request()->post('lr');
+    $cr = $app->request()->post('cr');
 
     $keyword = R::findOne('keyword', 'keyword=:keyword', array(':keyword' => $word));
 
@@ -27,6 +29,8 @@ $app->post('/keywords', $requiredAuth, function () use ($app) {
     else {
         $keyword = R::dispense('keyword');
         $keyword->keyword = $word;
+        $keyword->lr = $lr;
+        $keyword->cr = $cr;
         $id = R::store($keyword);
         $app->flash('success', "$word created");
         $app->redirect($app->urlFor('keywords'));

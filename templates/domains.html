@@ -2,11 +2,10 @@
 {% block title %}Domains{% endblock %}
 {% block content %}
 <div class="well">
-    <form class="form-inline m0" action="{{ urlFor('domains') }}" method="POST">
-        <input type="url" value="{{ url }}" name="url" placeholder="http://example.com" class="input-xlarge" required>
-
-        <button type="submit" class="btn btn-primary">Add domain</button>
-    </form>
+<form class="form-inline m0" action="{{ urlFor('domains') }}" method="POST">
+<input type="url" value="{{ url }}" name="url" placeholder="http://example.com" class="input-xlarge" required>
+<button type="submit" class="btn btn-primary">Add domain</button>
+</form>
 </div>
 {% if domains %}
 <table class="table">
@@ -21,7 +20,8 @@
         <td class="short">{{ domain.id }}</td>
         <td>{{ domain.host }}</td>
         <td class="short">
-            <a href="{{ home }}domains/{{ domain.id }}/delete" onclick="return confirm('Are you sure?\nALL DATA WILL BE DELETED!')" class="btn btn-danger btn-mini">Delete</a>
+            <a href="{{ home }}domains/{{ domain.id }}/delete"
+               onclick="return confirm('Are you sure?\nALL DATA WILL BE DELETED!')" class="btn btn-danger btn-mini">Delete</a>
         </td>
     </tr>
     {% endfor %}
