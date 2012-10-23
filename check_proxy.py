@@ -12,6 +12,8 @@ buf = cStringIO.StringIO()
 c = pycurl.Curl()
 c.setopt(c.URL, 'http://checker.mac-blog.org.ua/ip.php')
 c.setopt(c.FAILONERROR, 1)
+# c.setopt(c.CONNECTTIMEOUT, 5)
+# c.setopt(c.TIMEOUT, 5)
 c.setopt(c.PROXY, proxy_host)
 c.setopt(c.PROXYPORT, proxy_port)
 c.setopt(c.PROXYUSERPWD, '%s:%s' % (proxy_user, proxy_pass))
@@ -26,6 +28,6 @@ try:
         print "%s != %s" % (proxy_host, ip)
 except pycurl.error, error:
     errno, errstr = error
-    print 'Erorr: ', errstr
+    print '%s : %s' % (errno, errstr)
 
 buf.close()
