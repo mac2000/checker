@@ -39,9 +39,9 @@ try:
     c.perform()
     ip = buf.getvalue()
     if ip == proxy_host:
-        print "%s == %s" % (proxy_host, ip)
+        print "[OK] %s == %s" % (proxy_host, ip)
     else:
-        print "%s != %s" % (proxy_host, ip)
+        print "[ERROR] %s != %s" % (proxy_host, ip)
 except pycurl.error, error:
     errno, errstr = error
     print '%s : %s' % (errno, errstr)
