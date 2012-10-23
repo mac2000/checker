@@ -24,3 +24,27 @@ el = d('table table table tr:last-child td')
 
 print el.text()
 #print el.html()
+
+
+# http://www.angryobjects.com/2011/10/15/http-with-python-pycurl-by-example/
+
+'''
+
+c = pycurl.Curl()
+c.setopt(c.URL, 'http://myappserver.com/ses1')
+c.setopt(c.CONNECTTIMEOUT, 5)
+c.setopt(c.TIMEOUT, 8)
+c.setopt(c.COOKIEFILE, '')
+c.setopt(c.FAILONERROR, True) # <-------------------------------------------
+c.setopt(c.HTTPHEADER, ['Accept: text/html', 'Accept-Charset: UTF-8'])
+try:
+    c.perform()
+
+    c.setopt(c.URL, 'http://myappserver.com/ses2')
+    c.setopt(c.POSTFIELDS, 'foo=bar&bar=foo')
+    c.perform()
+except pycurl.error, error:
+    errno, errstr = error
+    print 'An error occurred: ', errstr
+
+'''
