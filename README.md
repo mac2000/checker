@@ -12,3 +12,4 @@ python-lxml
 python-mysqldb
 
 rabbitmq-server (requires additional repositories)
+
