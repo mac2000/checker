@@ -11,3 +11,9 @@ curl -x 174.122.73.120:3128 -U ip3:ohzahnohdohnuyoseeph -L -v http://myip.ru
 curl -x 174.122.73.121:3128 -U ip4:eijeerauhovojighohvi -L -v http://myip.ru
 
 curl -x 174.122.73.8:3128 -U ip2:uyuxithaitaiwaihaquu -L -v http://yahoo.com
+
+
+curl -b C:\Users\Alexandr\Desktop\coc.txt -c C:\Users\Alexandr\Desktop\coc.txt -L -v http://google.com
+
+-b, --cookie STRING/FILE  String or file to read cookies from (H)
+-c, --cookie-jar FILE  Write cookies to this file after operation (H)

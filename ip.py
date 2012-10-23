@@ -48,3 +48,28 @@ except pycurl.error, error:
     print 'An error occurred: ', errstr
 
 '''
+
+#  cookies = tempfile.mkstemp()
+
+'''
+
+#!/usr/bin/env python
+import pycurl
+import tempfile
+import cStringIO
+
+tmp = tempfile.NamedTemporaryFile()
+buf = cStringIO.StringIO()
+
+c = pycurl.Curl()
+c.setopt(c.URL, 'http://google.com/')
+c.setopt(c.FOLLOWLOCATION, 1)
+c.setopt(c.COOKIEFILE, tmp.name)
+c.setopt(c.COOKIEJAR, tmp.name)
+c.setopt(c.WRITEFUNCTION, buf.write)
+c.perform()
+
+html = buf.getvalue()
+buf.close()
+tmp.close()
+print "done"
