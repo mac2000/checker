@@ -12,12 +12,12 @@ $proxy_user = 'ip2';
 $proxy_pass = 'uyuxithaitaiwaihaquu';
 
 $ch = curl_init();
-//curl_setopt($ch, CURLOPT_VERBOSE, TRUE);
-curl_setopt($ch, CURLOPT_AUTOREFERER, TRUE);
+curl_setopt($ch, CURLOPT_VERBOSE, TRUE);
+//curl_setopt($ch, CURLOPT_AUTOREFERER, TRUE);
 curl_setopt($ch, CURLOPT_URL, $url);
 curl_setopt($ch, CURLOPT_HEADER, FALSE);
-curl_setopt($ch, CURLOPT_COOKIESESSION, TRUE);
-curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 5);
+//curl_setopt($ch, CURLOPT_COOKIESESSION, TRUE);
+//curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 5);
 curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
 curl_setopt($ch, CURLOPT_FOLLOWLOCATION, TRUE);
 curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE);
