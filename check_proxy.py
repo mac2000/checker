@@ -31,7 +31,7 @@ c.setopt(c.FAILONERROR, 1)
 # c.setopt(c.CONNECTTIMEOUT, 5)
 # c.setopt(c.TIMEOUT, 5)
 c.setopt(c.PROXY, proxy_host)
-c.setopt(c.PROXYPORT, proxy_port)
+c.setopt(c.PROXYPORT, int(proxy_port))
 c.setopt(c.PROXYUSERPWD, '%s:%s' % (proxy_user, proxy_pass))
 c.setopt(c.WRITEFUNCTION, buf.write)
 
