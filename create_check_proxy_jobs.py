@@ -1,42 +1,69 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
+import os
 import pika
 import sys
 import MySQLdb
+import ConfigParser
+import json
+import smtplib
+from email.mime.text import MIMEText
+
+# Read config.ini
+config = ConfigParser.ConfigParser()
+config.read(os.path.expanduser('~/www/checker/config.ini'))
+
+queue_name = 'proxy_check'
 
 # Connect to RabbitMQ
-connection = pika.BlockingConnection(pika.ConnectionParameters(
-	host='localhost',
-	port=5672,
+rabbit = pika.BlockingConnection(pika.ConnectionParameters(
+	host=config.get('rabbitmq', 'host'),
+	port=int(config.get('rabbitmq', 'port')),
 	credentials=pika.PlainCredentials(
-		'guest',
-		'guest'
+		config.get('rabbitmq', 'user'),
+		config.get('rabbitmq', 'pass')
 	)
 ))
+channel = rabbit.channel()
+queue = channel.queue_declare(queue=queue_name, durable=True)
+message_count = queue.method.message_count
 
-# Get jobs count that are still in queue
-message_count = 0
-try:
-	channel = connection.channel()
-	queue = channel.queue_declare(queue=name, passive=True)
-	message_count = queue.method.message_count
-# If there is no jobs in queue - all ok, create new jobs
-	if message_count == 0:
-		con = MySQLdb.connect('localhost', 'checker', '3607885', 'checker')
-		with con:
-			cur = con.cursor(MySQLdb.cursors.DictCursor)
-			cur.execute("SELECT * FROM proxy")
-			rows = cur.fetchall()
-			#TODO: Connect to db and retrieve proxies
-			#TODO: create job for each proxy
-			print 'going create jobs'
-# Otherwise - notify, but only once per day
-	else:
-		print 'there is still jobs, notify if already not'
+# Connect to MySQL
+dbh = MySQLdb.connect(
+	config.get('mysql', 'host'),
+	config.get('mysql', 'user'),
+	config.get('mysql', 'pass'),
+	config.get('mysql', 'db'))
+cur = dbh.cursor(MySQLdb.cursors.DictCursor)
 
-except:
-	pass
-	#TODO: something wrong, send message
-finally:
-	connection.close()
+if message_count == 0:
+	cur.execute("SELECT * FROM proxy")
+	rows = cur.fetchall()
+	for row in rows:
+		channel.basic_publish(
+				exchange='',
+				routing_key=queue_name,
+				body=json.dumps(row),
+				properties=pika.BasicProperties(
+					delivery_mode=2))
+		print " [x] Sent %s:%s@%s:%s" % (row['username'], row['password'], row['host'], row['port'])
+else:
+	msg = " [!] There is %s jobs left in queue" % message_count
+	print msg
+
+	msg = MIMEText(msg)
+	msg['Subject'] = '[Checker][Fail] Create check proxy jobs'
+	msg['From'] = config.get('smtp', 'user')
+	msg['To'] = config.get('smtp', 'to')
+	smtp = smtplib.SMTP('smtp.gmail.com', 587)
+	smtp.ehlo()
+	smtp.starttls()
+	smtp.ehlo()
+	smtp.login(config.get('smtp', 'user'), config.get('smtp', 'pass'))
+	smtp.sendmail(config.get('smtp', 'user'), config.get('smtp', 'to'), msg.as_string())
+	smtp.close()
+
+# Close connections
+rabbit.close()
+dbh.close()
 
