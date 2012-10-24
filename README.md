@@ -28,5 +28,9 @@ Supervisor
 	username = checker
 	password = *******
 
+	[supervisorctl]
+	;serverurl=unix:///tmp/supervisor.sock 
+	serverurl=http://127.0.0.1:9001
+
 	[include]
 	files = /etc/supervisor/conf.d/*.conf /home/mac/supervisor/*.conf

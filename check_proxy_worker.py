@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
+import os
 import pika
 import sys
 import MySQLdb
@@ -49,7 +50,7 @@ def callback(ch, method, properties, body):
 		ip = buf.getvalue()
 		if ip == data['host']:
 			print " [+] %s == %s" % (data['host'], ip)
-			mail.send('marchenko.alexandr@gmail.com', '[Checker][SUCCESSL] Proxy checked', 'CHECKED')
+			# mail.send('marchenko.alexandr@gmail.com', '[Checker][SUCCESSL] Proxy checked', 'CHECKED')
 		else:
 			print " [!] %s != %s" % (data['host'], ip)
 			#TODO: stop worker (set flag)
