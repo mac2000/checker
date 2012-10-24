@@ -1,41 +1,21 @@
-#!/usr/bin/env python
+#!/usr/sbin/env python
+# -*- coding: utf-8 -*-
 import smtplib
 from email.mime.text import MIMEText
 
-html = """\
-<html>
-  <head></head>
-  <body>
-    <p>Hi!<br>
-       How are you?<br>
-       Here is the <a href="http://www.python.org">link</a> you wanted.
-    </p>
-  </body>
-</html>
-"""
+def send(to, subject, body):
+    mail_from = 'marchenko.alexandr@gmail.com'
+    smtp_pass = '5340940'
 
-msg = MIMEText(html, 'html')
+    msg = MIMEText(body, 'html')
+    msg['Subject'] = subject
+    msg['From'] = mail_from
+    msg['To'] = to
 
-# me == the sender's email address
-# you == the recipient's email address
-msg['Subject'] = 'TEST'
-msg['From'] = 'from@example.com'
-msg['To'] = 'to@example.com'
-
-# Send the message via our own SMTP server, but don't include the
-# envelope header.
-s = smtplib.SMTP('localhost')
-s.sendmail('from@example.com', 'to@example.com', msg.as_string())
-s.quit()
-
-'''
-from email.mime.text import MIMEText
-from subprocess import Popen, PIPE
-
-msg = MIMEText("Here is the body of my message")
-msg["From"] = "me@example.com"
-msg["To"] = "you@example.com"
-msg["Subject"] = "This is the subject."
-p = Popen(["/usr/sbin/sendmail", "-t"], stdin=PIPE)
-p.communicate(msg.as_string())
-'''
+    smtp = smtplib.SMTP('smtp.gmail.com',587)
+    smtp.ehlo()
+    smtp.starttls()
+    smtp.ehlo()
+    smtp.login(mail_from, smtp_pass)
+    smtp.sendmail(mail_from, to, msg.as_string())
+    smtp.close()

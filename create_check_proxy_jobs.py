@@ -6,8 +6,7 @@ import sys
 import MySQLdb
 import ConfigParser
 import json
-import smtplib
-from email.mime.text import MIMEText
+import mail
 
 # Read config.ini
 config = ConfigParser.ConfigParser()
@@ -17,9 +16,8 @@ config_path = os.path.realpath(
     'config.ini'))
 config.read(config_path)
 
-queue_name = 'proxy_check'
-
 # Connect to RabbitMQ
+queue_name = 'proxy_check'
 rabbit = pika.BlockingConnection(pika.ConnectionParameters(
 	host=config.get('rabbitmq', 'host'),
 	port=int(config.get('rabbitmq', 'port')),
@@ -54,18 +52,7 @@ if message_count == 0:
 else:
 	msg = " [!] There is %s jobs left in queue" % message_count
 	print msg
-
-	msg = MIMEText(msg)
-	msg['Subject'] = '[Checker][Fail] Create check proxy jobs'
-	msg['From'] = config.get('smtp', 'user')
-	msg['To'] = config.get('smtp', 'to')
-	smtp = smtplib.SMTP('smtp.gmail.com', 587)
-	smtp.ehlo()
-	smtp.starttls()
-	smtp.ehlo()
-	smtp.login(config.get('smtp', 'user'), config.get('smtp', 'pass'))
-	smtp.sendmail(config.get('smtp', 'user'), config.get('smtp', 'to'), msg.as_string())
-	smtp.close()
+	mail.send('marchenko.alexandr@gmail.com', '[Checker][Fail] Create check proxy jobs', msg)
 
 # Close connections
 rabbit.close()

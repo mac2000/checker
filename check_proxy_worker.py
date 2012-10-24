@@ -7,18 +7,18 @@ import ConfigParser
 import json
 import pycurl
 import cStringIO
-import smtplib
-from email.mime.text import MIMEText
+import mail
 
 # Read config.ini
 config = ConfigParser.ConfigParser()
-config.read('config.ini')
-
-queue_name = 'proxy_check'
-
-# Configure cURL
+config_path = os.path.realpath(
+    os.path.join(os.getcwd(),
+    os.path.dirname(__file__),
+    'config.ini'))
+config.read(config_path)
 
 # Connect to RabbitMQ
+queue_name = 'proxy_check'
 rabbit = pika.BlockingConnection(pika.ConnectionParameters(
 	host=config.get('rabbitmq', 'host'),
 	port=int(config.get('rabbitmq', 'port')),
@@ -49,17 +49,7 @@ def callback(ch, method, properties, body):
 		ip = buf.getvalue()
 		if ip == data['host']:
 			print " [+] %s == %s" % (data['host'], ip)
-			msg = MIMEText('CHECKED')
-			msg['Subject'] = '[Checker][SUCCESSL] Proxy checked'
-			msg['From'] = config.get('smtp', 'user')
-			msg['To'] = config.get('smtp', 'to')
-			smtp = smtplib.SMTP('smtp.gmail.com', 587)
-			smtp.ehlo()
-			smtp.starttls()
-			smtp.ehlo()
-			smtp.login(config.get('smtp', 'user'), config.get('smtp', 'pass'))
-			smtp.sendmail(config.get('smtp', 'user'), config.get('smtp', 'to'), msg.as_string())
-			smtp.close()
+			mail.send('marchenko.alexandr@gmail.com', '[Checker][SUCCESSL] Proxy checked', 'CHECKED')
 		else:
 			print " [!] %s != %s" % (data['host'], ip)
 			#TODO: stop worker (set flag)
