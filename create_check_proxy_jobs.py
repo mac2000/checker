@@ -11,7 +11,11 @@ from email.mime.text import MIMEText
 
 # Read config.ini
 config = ConfigParser.ConfigParser()
-config.read(os.path.expanduser('~/www/checker/config.ini'))
+config_path = os.path.realpath(
+    os.path.join(os.getcwd(),
+    os.path.dirname(__file__),
+    'config.ini'))
+config.read(config_path)
 
 queue_name = 'proxy_check'
 
