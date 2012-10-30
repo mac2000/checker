@@ -34,3 +34,6 @@ Supervisor
 
 	[include]
 	files = /etc/supervisor/conf.d/*.conf /home/mac/supervisor/*.conf
+
+
+	supervisorctl -u mac -p ***** update
