@@ -33,7 +33,7 @@ Supervisor
 	serverurl=http://127.0.0.1:9001
 
 	[include]
-	files = /etc/supervisor/conf.d/*.conf /home/mac/supervisor/*.conf
+	files = /etc/supervisor/conf.d/*.conf /home/mac/supervisor/*.conf /home/mac/supervisor/*/*.conf
 
 
 	supervisorctl -u mac -p ***** update
