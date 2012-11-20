@@ -6,7 +6,7 @@ Cron
 Установка
 ---------
 
-Необходимо выполнить SQL код из файла `install.sql`.
+Необходимо выполнить SQL код из файла `install.sql`. Из консоли `mysql -u <user> --password=<pass> <db> < install.sql`
 Заполнить файл `config.ini`.
 И создать папку с правами на запись `log`.
 
