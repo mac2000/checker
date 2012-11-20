@@ -8,11 +8,8 @@
             <tr>
                 <th>date</th>
                 <th>keyword</th>
-                <th>lr</th>
-                <th>cr</th>
                 <th>position</th>
                 <th>domain</th>
-                <th>url</th>
             </tr>
         </thead>
         <tbody>
@@ -22,10 +19,10 @@
 
             $dbh = new PDO('mysql:host=' . $config['mysql']['host'] . ';dbname=' . $config['mysql']['db'], $config['mysql']['user'], $config['mysql']['pass']);
             $dbh->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-            $sql = "SELECT * FROM cron";
+            $sql = "SELECT date,keyword,position,domain FROM cron";
 
-            foreach ($dbh->query($sql) as $row)
-                echo '<tr><td>' . implode('</td><td>', array_values($row)) . '</td></tr>';
+            foreach ($dbh->query($sql) as $row) {
+                echo '<tr><td>' . $row['date'] . '</td><td>' . $row['keyword'] . '</td><td>' . $row['position'] . '</td><td>' . $row['domain'] . '</td></tr>';
             }
 
         }

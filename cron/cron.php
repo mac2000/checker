@@ -106,8 +106,17 @@ if($response['http_code'] == 200) {
 
             for($i = 0; $i < count($links); $i++) {
                 $link = $links[$i];
-                $domain = parse_url($link, PHP_URL_HOST);
-                $domain = str_replace('www.', '', $domain);
+                if(strpos($link, 'http') === 0) {
+                    $domain = parse_url($link, PHP_URL_HOST);
+                    $domain = str_replace('www.', '', $domain);
+                } else if(strpos($link, '/url?q=http') === 0) {
+                    $domain = parse_url($link, PHP_URL_QUERY);
+                    parse_str($domain, $output);
+                    $domain = $output['q'];
+                    $domain = str_replace('www.', '', $domain);
+                } else {
+                    $domain = 'UNKNOWN';
+                }
                 if($nodb) {
                     echo '[' . ($i + 1) . '] ' . $domain . PHP_EOL;
                 } else {
