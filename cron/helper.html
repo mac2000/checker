@@ -1,0 +1,59 @@
+<!doctype html>
+<title>helper</title>
+<meta charset="utf-8">
+<link rel="stylesheet" href="http://netdna.bootstrapcdn.com/twitter-bootstrap/latest/css/bootstrap-combined.min.css">
+<div class="container-fluid" style="padding:20px">
+    <div class="row-fluid">
+        <div class="span6">
+            <textarea id="keywords" class="span12" placeholder="keywords (one per line)" style="height:200px"></textarea>
+        </div>
+        <div class="span6">
+            <textarea id="proxies" class="span12" placeholder="proxies (one per line)" style="height:200px"></textarea>
+        </div>
+    </div>
+    <div class="row-fluid">
+        <a class="span12 btn" href="#">Build</a>
+    </div>
+    <div class="row-fluid">
+        <br>
+        <pre>...</pre>
+    </div>
+</div>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
+<script>
+(function($){
+    var keywords = [];
+    for(var i = 0; i < 1000; i++) keywords.push('Keyword ' + (i + 1));
+    $('#keywords').val(keywords.join("\n"));
+
+    var proxies = [];
+    for(var i = 0; i < 2; i++) proxies.push('http://user:pass@proxy' + (i + 1) + '.com:8080');
+    $('#proxies').val(proxies.join("\n"));
+
+    $('a:first').on('click', function(e){
+        e.preventDefault();
+        var keywords = $.grep($.map($('#keywords').val().split("\n"), $.trim), function(line) { return line.length > 0; });
+        var proxies = $.grep($.map($('#proxies').val().split("\n"), $.trim), function(line) { return line.length > 0 && line.indexOf('http://') === 0; });
+        var cron = [];
+        $.each(proxies, function(index, proxy){
+            for(var h = 0; h < 24; h++) {
+                for(var m = 0; m < 60; m = m + 2) {
+                    var keyword = keywords.shift();
+
+                    if(keyword) {
+                        cron.push(m + ' ' + h + ' * * * php -d max_execution_time=0 /path/to/cron.php -k "' + keyword + '" -p ' + proxy)
+                    } else {
+                        break;
+                    }
+                }
+            }
+        });
+        $('pre:first').html(cron.join("\n"));
+
+        if(keywords.length > 0) alert('There is ' + keywords.length + ' keywrods left');
+
+        return false;
+    }).trigger('click');
+
+})(jQuery);
+</script>
