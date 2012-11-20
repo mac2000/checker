@@ -23,10 +23,8 @@
             $dbh = new PDO('mysql:host=' . $config['mysql']['host'] . ';dbname=' . $config['mysql']['db'], $config['mysql']['user'], $config['mysql']['pass']);
             $dbh->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
             $sql = "SELECT * FROM cron";
-            $stmt = $dbh->query($sql);
-            $result = $stmt->fetch(PDO::FETCH_ASSOC);
 
-            foreach($result as $row) {
+            foreach ($dbh->query($sql) as $row)
                 echo '<tr><td>' . implode('</td><td>', array_values($row)) . '</td></tr>';
             }
 
