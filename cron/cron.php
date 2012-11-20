@@ -101,7 +101,7 @@ if($response['http_code'] == 200) {
         try {
             $dbh = new PDO('mysql:host=' . $config['mysql']['host'] . ';dbname=' . $config['mysql']['db'], $config['mysql']['user'], $config['mysql']['pass']);
             $dbh->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-            $sql = "INSERT INTO cron VALUES(NULL, DATE(NOW()), :keyword, :lr, :cr, :position, :domain, :url);";
+            $sql = "INSERT INTO cron VALUES(DATE(NOW()), :keyword, :lr, :cr, :position, :domain, :url) ON DUPLICATE KEY UPDATE domain = :domain, url = :url;";
             $stmt = $dbh->prepare($sql);
 
             for($i = 0; $i < count($links); $i++) {
