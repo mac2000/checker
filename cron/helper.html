@@ -41,7 +41,7 @@
                     var keyword = keywords.shift();
 
                     if(keyword) {
-                        cron.push(m + ' ' + h + ' * * * php -d max_execution_time=0 /path/to/cron.php -k "' + keyword + '" -p ' + proxy)
+                        cron.push(m + ' ' + h + ' * * * php -d max_execution_time=0 /home/checker/www/cron/cron.php -k "' + keyword + '" -p ' + proxy + ' > /dev/null 2>&1')
                     } else {
                         break;
                     }
