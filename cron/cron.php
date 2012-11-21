@@ -24,7 +24,10 @@ if($proxy) {
 
     $response = get_html('http://checker.mac-blog.org.ua/ip.php', null, null, null, $host, $port, $user, $pass);
 
-    if($response['http_code'] != 200 || trim($response['body']) != trim($host)) die('Bad response from given proxy');
+    if($response['http_code'] != 200 || trim($response['body']) != trim($host)) {
+        mail($config['mail']['to'], '[CHECKER] Proxy broken', 'Status: ' . $response['http_code'] . ', Response: ' . trim($response['body']));
+        die('Bad response from given proxy');
+    }
 } else {
     $user = null;
     $pass = null;
