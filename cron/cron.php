@@ -113,6 +113,7 @@ if($response['http_code'] == 200) {
                     $domain = parse_url($link, PHP_URL_QUERY);
                     parse_str($domain, $output);
                     $domain = $output['q'];
+                    $domain = parse_url($domain, PHP_URL_HOST);
                     $domain = str_replace('www.', '', $domain);
                 } else {
                     $domain = 'UNKNOWN';
