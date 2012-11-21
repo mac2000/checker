@@ -65,9 +65,10 @@ if($response['http_code'] == 200) {
     // STEP 3. ANALYZE DATA
     $good_responses = array_filter($responses, function($response) { return $response['http_code'] == 200; });
     // STEP 3.1 CHECK FOR CAPTCHA
-    if(count($responses) == count(array_filter($responses, function($response) { return $response['http_code'] == 503; }))) {
+    $captcha_responses = array_filter($responses, function($response) { return $response['http_code'] == 503; });
+    if(count($responses) == count($captcha_responses)) {
         die('[!] Captcha detected');
-        //TODO: mail here
+        mail($config['mail']['to'], '[CHECKER] Captcha', 'Get ' . count($captcha_responses) . ' 503 responses for ' . $proxy . ' when trying to check "' . $keyword . '" keyword');
     } else {
         echo '[*] Done in ' . round(microtime(true) - $t) . ' seconds with ' . count($good_responses) . ' good and ' . (count($responses) - count($good_responses)) . ' bad responses' . PHP_EOL;
 
@@ -85,9 +86,10 @@ if($response['http_code'] == 200) {
             }
         }
 
-        if($links < 10 * count($good_responses)) {
+        if(count($links) < 10 * count($good_responses)) {
             echo '[!] Probably Google HTML changed' . PHP_EOL;
-            //TODO: notify
+            mail($config['mail']['to'], '[CHECKER] To few results', 'Get ' . count($links) . ' results, expected: ' . (10 * count($good_responses)));
+
         }
 
         echo '[*] ' . count($links) . ' links parsed' . PHP_EOL;
@@ -140,5 +142,6 @@ if($response['http_code'] == 200) {
 
     }
 } else {
+    mail($config['mail']['to'], '[CHECKER] Can not open google', 'Can not open google with ' . $proxy);
     die("Can not open $url");
 }
