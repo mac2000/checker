@@ -7,6 +7,7 @@
         $config = parse_ini_file('config.ini', true);
         $dbh = new PDO('mysql:host=' . $config['mysql']['host'] . ';dbname=' . $config['mysql']['db'], $config['mysql']['user'], $config['mysql']['pass']);
     ?>
+
     <h3>Today</h3>
     <p>Total records: <?php echo $dbh->query("select count(*) as total from cron where `date` = date(now());")->fetchColumn(0);?></p>
     <p>Keywords: <?php echo $dbh->query("select count(*) from (select distinct keyword from cron where `date` = date(now())) as k;")->fetchColumn(0);?></p>
@@ -37,6 +38,26 @@
     ?>
     </tbody>
     </table>
+
+
+    <h3>Yesterday</h3>
+    <p>Total records: <?php echo $dbh->query("select count(*) as total from cron where `date` = subdate(current_date, 1);")->fetchColumn(0);?></p>
+    <p>Keywords: <?php echo $dbh->query("select count(*) from (select distinct keyword from cron where `date` = subdate(current_date, 1)) as k;")->fetchColumn(0);?></p>
+
+    <table class="table">
+        <thead>
+            <tr><th>keyword</th><th>total</th></tr>
+        </thead>
+        <tbody>
+    <?php
+        foreach ($dbh->query("select keyword, count(*) as total from cron where `date` = subdate(current_date, 1) group by keyword order by keyword;") as $row) {
+            echo '<tr><td>' . $row['keyword'] . '</td><td>' . $row['total'] . '</td></tr>';
+        }
+    ?>
+    </tbody>
+    </table>
+
+
 
     <h3>Log</h3>
     <table class="table">
