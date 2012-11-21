@@ -45,7 +45,7 @@
         </thead>
         <tbody>
     <?php
-        foreach ($dbh->query("SELECT date,keyword,position,domain FROM cron") as $row) {
+        foreach ($dbh->query("SELECT date,keyword,position,domain FROM cron LIMIT 100") as $row) {
             echo '<tr><td>' . $row['date'] . '</td><td>' . $row['keyword'] . '</td><td>' . $row['position'] . '</td><td>' . $row['domain'] . '</td></tr>';
         }
     ?>
