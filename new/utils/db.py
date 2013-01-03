@@ -18,11 +18,10 @@ def get_keyword_domain_by(id):
         	return None
 
 def save_search_result(id, pos):
-	if pos:
-		db = __get_con()
-		with db:
-			c = db.cursor()
-			c.execute("INSERT INTO search_results VALUES(DATE(NOW()), %s, %s) ON DUPLICATE KEY UPDATE position=%s", (id, pos, pos))
+	db = __get_con()
+	with db:
+		c = db.cursor()
+		c.execute("INSERT INTO search_results VALUES(DATE(NOW()), %s, %s) ON DUPLICATE KEY UPDATE position=%s", (id, pos or 0, pos or 0))
 
 def get_all_keyword_domain_ids():
 	db = __get_con()

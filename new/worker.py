@@ -8,6 +8,7 @@ import json
 import sys
 import MySQLdb
 from utils.check import check
+from utils.notify import notify
 from utils.db import get_keyword_domain_by
 from utils.db import save_search_result
 
@@ -64,10 +65,11 @@ def callback(ch, method, properties, body):
                     )
                 )
                 ch.basic_ack(delivery_tag=method.delivery_tag)
-                #TODO: notify by email
+                #TODO: notify(gmail_from, to, subject, body, gmail_smtp_password)
                 if len(err.args) > 1 and '503' in err.args[1]:
                     print "[!] Got captcha, going to sleep for 15 min"
                     #TODO: notify by email
+                    #TODO: notify(gmail_from, to, subject, body, gmail_smtp_password)
                     time.sleep(15 * 60)
                 else:
                     time.sleep(5)
