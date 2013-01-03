@@ -56,8 +56,8 @@ def check(keyword, domain, proxy=None, verbose=False):
 
         for anchor in anchors:
             url = pq(anchor).attr('href')
-            parsed = parse_url(url)
-            if domain == parsed['domain']:
+            #parsed = parse_url(url)
+            if domain in url: #domain == parsed['domain']:
                 return position
             position += 1
         time.sleep(3)

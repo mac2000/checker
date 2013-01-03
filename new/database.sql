@@ -18,7 +18,7 @@ CREATE TABLE IF NOT EXISTS domains (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 CREATE TABLE IF NOT EXISTS keywords_domains (
-	id INT UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT,	
+	id INT UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT,
 	keyword_id INT UNSIGNED NOT NULL,
 	domain_id INT UNSIGNED NOT NULL,
 	UNIQUE INDEX(keyword_id, domain_id),
@@ -72,11 +72,11 @@ INSERT INTO keywords VALUES(NULL, 'residency personal statement writing services
 INSERT INTO keywords_domains VALUES(NULL, LAST_INSERT_ID(), @id_2);
 
 CREATE TABLE IF NOT EXISTS search_results (
-	search_date DATE NOT NULL,	
+	search_date DATE NOT NULL,
 	keywords_domains_id INT UNSIGNED NOT NULL,
-	position INT UNSIGNED NULL DEFAULT NULL,
+	position INT UNSIGNED NOT NULL DEFAULT 0,
 	PRIMARY KEY(search_date, keywords_domains_id),
-	FOREIGN KEY(keywords_domains_id) REFERENCES keywords_domains(id) ON UPDATE CASCADE ON DELETE CASCADE	
+	FOREIGN KEY(keywords_domains_id) REFERENCES keywords_domains(id) ON UPDATE CASCADE ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 /*
