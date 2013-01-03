@@ -6,7 +6,6 @@ import cStringIO
 from parse_url import parse_url
 
 def fetch(url, proxy=None, ua=None, cookie=None, verbose=False):
-    print "url: %s, proxy: %s, ua: %s, cookie: %s, verbose: %s" % (str(url), str(proxy), str(ua), str(cookie), str(verbose))
     buf = cStringIO.StringIO()
     c = pycurl.Curl()
 

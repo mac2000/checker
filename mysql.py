@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-import MySQLdb as mdb
+import MySQLdb
 import sys
 
 def get_connection(cfg):

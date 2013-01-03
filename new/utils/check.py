@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 #-*- encoding: utf-8 -*-
 
+import os
 import time
 import tempfile
 import random
@@ -10,7 +11,8 @@ from parse_url import parse_url
 from pyquery import PyQuery as pq
 
 def check(keyword, domain, proxy=None, verbose=False):
-    query = 'h3.r a.l'#open('./query.txt').read().strip()
+    query_file_path = os.path.join(os.path.dirname(os.path.realpath(__file__)), 'query.txt')
+    query = open(query_file_path).read().strip()
     keyword = urllib.quote_plus(keyword)
     cookies_file = tempfile.NamedTemporaryFile()
 
@@ -44,6 +46,8 @@ def check(keyword, domain, proxy=None, verbose=False):
 
         if page > 1:
             url = "%s&start=%d" % (url, start)
+
+        url = str(url)
 
         response = fetch(url, proxy, ua, cookies_file.name, verbose)
 

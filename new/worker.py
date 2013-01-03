@@ -31,10 +31,11 @@ def callback(ch, method, properties, body):
     else:
         try:
             position = check(data.get('keyword'), data.get('domain'), proxy);
+
             #TODO: save result to database
 
             ch.basic_ack(delivery_tag=method.delivery_tag)
-            print "[+] Done, position is: %s" % str(position)
+            print "[+] %s - %s done, position is: %s" % (data.get('keyword'), data.get('domain'), str(position))
 
         except Exception as err:
             print "Error: %s" % err
@@ -56,6 +57,7 @@ def callback(ch, method, properties, body):
             #TODO: notify by email
             if len(err.args) > 1 and '503' in err.args[1]:
                 print "[!] Got captcha, going to sleep for 15 min"
+                #TODO: notify by email
                 time.sleep(15 * 60)
             else:
                 time.sleep(5)
